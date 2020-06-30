@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "187093286545",
+    "firebase_url": "https://messengerapp-b51fe.firebaseio.com",
+    "project_id": "messengerapp-b51fe",
+    "storage_bucket": "messengerapp-b51fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187093286545:android:52a61000c28a80a54ac930",
+        "android_client_info": {
+          "package_name": "com.example.messengerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187093286545-9ob6sg0uaf5chkkugpj9d5tquumf2uoj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7Ex8Dm6nVeCGu71YSAaYbdsLQc0_zMcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187093286545-9ob6sg0uaf5chkkugpj9d5tquumf2uoj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
