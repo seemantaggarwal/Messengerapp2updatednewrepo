@@ -3,15 +3,80 @@
      xmlns:tools="http://schemas.android.com/tools"
      android:layout_width="match_parent"
      android:layout_height="match_parent"
-     tools:context=".fragments.SettingsFragment">
+     tools:context=".fragments.SettingsFragment"
+    android:padding="30dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cv1"
+        android:layout_marginTop="10dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/coverimage"
+                android:src="@drawable/cover">
+            </ImageView>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/profileimage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="140dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile"></de.hdodenhof.circleimageview.CircleImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/username"
+                android:layout_below="@id/profileimage"
+                android:text="USERNAME"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                />
+        </RelativeLayout>
 
-     <!-- TODO: Update blank fragment layout -->
-     <TextView
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:text="ACCOUNT SETTINGS"
-         android:textSize="30dp"
-         android:gravity="center"
-         android:textStyle="bold"/>
+    </androidx.cardview.widget.CardView>
 
- </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cv1"
+        android:background="@color/colorProfile"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/setfacebook"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="35dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/fb" />
+        <ImageView
+            android:id="@+id/setinstagram"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="35dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/instagram" />
+        <ImageView
+            android:id="@+id/setwebsite"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/website" />
+    </LinearLayout>
+</RelativeLayout>
