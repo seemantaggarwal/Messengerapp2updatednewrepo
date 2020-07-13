@@ -1,12 +1,18 @@
 package com.example.messengerapp.adapterclasses
 
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.messengerapp.MainActivity
+import com.example.messengerapp.MessageChatActivity
 import com.example.messengerapp.ModelClasses.Users
 import com.example.messengerapp.R
 import com.squareup.picasso.Picasso
@@ -52,5 +58,28 @@ class useradapter(mContext : Context, mUsersList: List<Users>, isChatCheck: Bool
         val user: Users = mUsersList[position]
         holder.username.text = user!!.getusername()
         Picasso.get().load(user.getprofile()).placeholder(R.drawable.profile).into(holder.profileimage)
+        holder.itemView.setOnClickListener{
+            val options = arrayOf<CharSequence>(
+                "Send Message",
+                "View Profile"
+            )
+            val builder : AlertDialog.Builder =  AlertDialog.Builder(mContext)
+            builder.setTitle("Choose one Option")
+            builder.setItems(options, DialogInterface.OnClickListener{
+                dialog, position ->
+                if(position == 0)
+                {
+                    val intent = Intent(mContext , MessageChatActivity::class.java)
+                    intent.putExtra("visit_id", user.getuid())
+                    mContext.startActivity(intent)
+
+                }
+                else if(position == 1)
+                {
+
+                }
+            })
+            builder.show()
+        }
     }
 }
