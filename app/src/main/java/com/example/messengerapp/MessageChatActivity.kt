@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.messengerapp.ModelClasses.Chat
@@ -17,10 +18,7 @@ import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
@@ -35,11 +33,23 @@ class MessageChatActivity : AppCompatActivity() {
     var chatsAdapter : ChatsAdapter? = null
     var mchatList: List<Chat>? = null
     lateinit var rcviewchats : RecyclerView
+    val reference : DatabaseReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message_chat)
         intent = intent
+
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_message)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.title = ""
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener {
+            val intent = Intent(this@MessageChatActivity  , WelcomeActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+        }
         useridvisit = intent.getStringExtra("visit_id")
         firebaseuser = FirebaseAuth.getInstance().currentUser
         val reference = FirebaseDatabase.getInstance().reference.child("USERS").child(useridvisit!!)
@@ -85,6 +95,7 @@ class MessageChatActivity : AppCompatActivity() {
             intent.type = "image/*"
             startActivityForResult(Intent.createChooser(intent, "Pick Image"), 438)
         }
+        seenmessage(useridvisit)
     }
 
 
@@ -208,4 +219,33 @@ class MessageChatActivity : AppCompatActivity() {
         })
 
     }
+    var seenListener : ValueEventListener? = null
+    private fun seenmessage(userId : String?)
+    {
+        seenListener = reference?.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                for(snapshot in p0.children)
+                {
+                    val chat  = snapshot.getValue(Chat ::class.java)
+                    if(chat!!.getreceiver() == firebaseuser!!.uid && chat!!.getsender() == userId)
+                    {
+                        val map = HashMap<String, Any>()
+                        map["isseen"] =  true
+                        snapshot.ref.updateChildren(map)
+                    }
+                }
+            }
+
+        })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        reference?.removeEventListener(seenListener!!)
+    }
+
 }

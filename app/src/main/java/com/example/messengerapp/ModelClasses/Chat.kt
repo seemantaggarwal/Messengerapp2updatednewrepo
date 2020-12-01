@@ -35,7 +35,7 @@ class Chat {
     fun getmessage():String?{
         return message
     }
-    fun setmessage(messageid: String?)
+    fun setmessage(message: String?)
     {
         this.message = message!!
     }
@@ -63,7 +63,7 @@ class Chat {
     fun getmessageid():String?{
         return messageid
     }
-    fun setmessageid(messageid: String?)
+    fun setmessageid(messageid: String? )
     {
         this.messageid = messageid!!
     }

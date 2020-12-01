@@ -49,7 +49,6 @@ class ChatsAdapter(
 
     override fun getItemCount() = mChatlist.size
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val chat : Chat = mChatlist[position]
         Picasso.get().load(imageUrl).into(holder.profileimage)
@@ -68,8 +67,10 @@ class ChatsAdapter(
         }
         else
         {
-            holder.showtextmessage!!.visibility = View.VISIBLE
-            holder.showtextmessage!!.text = chat.getmessage()
+            holder.showtextmessage?.setText(chat.getmessage())
+            holder.showtextmessage?.visibility = View.VISIBLE
+
+
         }
         if(position == mChatlist.size - 1)
         {
@@ -113,7 +114,7 @@ class ChatsAdapter(
 
         init {
             profileimage = itemView.findViewById(R.id.profileimage)
-            showtextmessage = itemView.findViewById(R.id.textmessage)
+            showtextmessage = itemView.findViewById(R.id.showtextmessage)
             leftimageview = itemView.findViewById(R.id.leftimageview)
             textseen = itemView.findViewById(R.id.textseen)
             rightimageview = itemView.findViewById(R.id.rightimageview)
@@ -123,7 +124,7 @@ class ChatsAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-         return if(mChatlist[position].getsender().equals(firebaseuser.uid))
+         return if(mChatlist[position].getsender().equals(firebaseuser!!.uid))
         {
             1
         }

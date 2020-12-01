@@ -8,6 +8,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import com.example.messengerapp.ModelClasses.Chat
+import com.example.messengerapp.ModelClasses.Chatlist
 import com.example.messengerapp.ModelClasses.Users
 import com.example.messengerapp.fragments.ChatFragment
 import com.example.messengerapp.fragments.SearchFragment
@@ -49,17 +51,59 @@ var refusers : DatabaseReference? = null
             SettingsFragment.newInstance()
 
         )
-        val names = arrayListOf<String>(
-            "CHATS",
-            "SEARCH",
-            "SETTINGS"
+        lateinit var names  : ArrayList<String>
+//        val adapter = ViewPagerAdapter( this , fragments )
+//        view_pager.adapter= adapter
+//        TabLayoutMediator(tab_layout, view_pager){tab, position->
+//            tab.text = " ${names[position]}"
+//        }.attach()
 
+        val ref = FirebaseDatabase.getInstance().reference.child("Chats")
+        ref!!.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                 val adapter = ViewPagerAdapter( this@MainActivity  , fragments )
+                var countunread = 0
+                for(snapshot in p0.children)
+                {
+                    val chat = snapshot.getValue(Chat::class.java)
+                    if(chat!!.getreceiver() == firebaseuser!!.uid && (!chat.isisseen()!!))
+                    {
+                        countunread +=1
+                    }
+
+                }
+                if(countunread == 0)
+                {
+                            names = arrayListOf<String>(
+                                "CHATS",
+                                "SEARCH",
+                                "SETTINGS"
+
+                            )
+                }
+                else
+                {
+                    names = arrayListOf<String>(
+                    "($countunread) CHATS",
+                    "SEARCH",
+                    "SETTINGS"
+
+                )
+
+                }
+                view_pager.adapter= adapter
+                TabLayoutMediator(tab_layout, view_pager){tab, position->
+                    tab.text = " ${names[position]}"
+                }.attach()
+
+            }
+
+        }
         )
-        val adapter = ViewPagerAdapter( this , fragments )
-        view_pager.adapter= adapter
-        TabLayoutMediator(tab_layout, view_pager){tab, position->
-            tab.text = " ${names[position]}"
-        }.attach()
 
         refusers!!.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
